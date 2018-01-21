@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pong 20.01.18</title>
+	<style type="text/css">
+		body {
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="kanvas"></canvas>
+<script type="text/javascript">
+	"use strict";
+	let kanvas = document.getElementById("kanvas");
+	let ctx = kanvas.getContext("2d");
+
+	kanvas.width = window.innerWidth;
+	kanvas.height = window.innerHeight-10;
+	let refresh = () => {
+		ctx.fillStyle = "black";
+		ctx.fillRect(0, 0, kanvas.width, kanvas.height);
+
+		ctx.fillStyle = "white";
+		ctx.fillRect(spiller.x, spiller.y, spiller.bredde, spiller.høyde);
+
+		ball.bevegelse();
+		ctx.fillRect(ball.x, ball.y, ball.bredde, ball.høyde);
+	};
+	let dimensjoner = [
+		"ball.x += ball.hopp",
+		"ball.x -= ball.hopp",
+		"ball.y += ball.hopp",
+		"ball.y -= ball.hopp"
+	];
+	let opp = dimensjoner.length-1;
+	let ned = opp-1;
+	let venstre = ned -1;
+	let høyre = 0;
+	let gårTilVenstre = false;	
+	let ball = {
+		x: kanvas.width/2,
+		y: kanvas.height/2,
+		bredde: 20,
+		høyde: 20,
+		hopp: 5,
+		bevegelse: () => {
+			if (ball.x >= kanvas.width-ball.bredde && !gårTilVenstre) {
+				ball.retning = venstre;
+			}else if(ball.x <= 0+ball.bredde && gårTilVenstre) {
+				ball.retning = høyre;
+			}
+			eval(dimensjoner[ball.retning]);
+		},
+		retning: Math.floor(Math.random()*4)	
+	}
+
+	let spiller = {
+
+		høyde: kanvas.height/10+50,
+		bredde: 10,
+		x: 200,
+		y: 100
+	};
+
+	let input = e => {
+		console.log(e.key);
+		switch(e.key) {
+			case "w":
+				if(spiller.y >= 0) {
+					//ball.retning = dimensjoner.length;
+					//spiller.y -= hopp;
+				}
+				break;
+			case "s":
+				if(spiller.y <= kanvas.height-spiller.høyde) {
+					spiller.y += hopp;
+				}
+		}
+	}
+
+	let hopp = 50;
+	document.addEventListener("keydown", e => {input(e)});
+	let timer = setInterval(refresh, 10);
+</script>
+</body>
+</html>
