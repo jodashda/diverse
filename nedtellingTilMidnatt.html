@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hytta 31.12.17</title>
+</head>
+<body id="kropp">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<h1 id="igjenTid" class="container">Tid igjen til midnatt: </h1>
+<style type="text/css">
+	.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+#igjenTid {
+	color: white;
+	font-size: 60px;
+}
+body {
+	background-color: black;
+	font-family: 'Raleway', sans-serif;
+}
+</style>
+<script type="text/javascript">
+	let tekst = document.getElementById('tekst');
+	let tid = new Date();
+	let tellerNed = false;
+	let millisekunder = 0;
+	let tekstIgjen = document.getElementById("igjenTid");
+	let tellNed = arg => {
+		tekstIgjen.innerText = "Tid igjen til midnatt den " + tid.getDate() + ". " + String(tid).substring(4, 7)+ " " + String(tid).substring(12, 15) + ": \n";
+		let timer = 24-tid.getHours()-1;
+		let minutter = 60-tid.getMinutes();
+		let timeTekst;
+		let minminuttTekst;
+		let sekundTekst;
+		let sekunder = 60-tid.getSeconds();
+		if (timer === 1) {
+			timeTekst = " time, ";
+		}else {
+			timeTekst = " timer, ";
+		}
+		if(minutter === 1) {
+			minminuttTekst = " minutt og ";
+		}else {
+			minminuttTekst = " minutter og ";
+		}
+		if (sekunder == 1 || sekunder == 0) {
+			sekundTekst = " sekund.";
+		}else {
+			sekundTekst = " sekunder.";
+		}
+		tekstIgjen.innerText += timer + timeTekst + minutter + minminuttTekst + sekunder + sekundTekst;
+	}
+	let refreshTid = () => {
+		tid = new Date();
+		millisekunder = tid.getMilliseconds();
+		let sekunder = String(tid).substring(22, 24);
+		tellNed();
+	}
+	let timer = setInterval(refreshTid, 1000);
+</script>
+</body>
+</html>
