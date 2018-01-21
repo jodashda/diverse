@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Flappybird 17.11.17</title>
+</head>
+<body>
+	<style type="text/css">
+		* {
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+}
+	</style>
+<canvas id="kanvas" class="*"></canvas>
+<script type="text/javascript">
+const kanvas = document.getElementById('kanvas');
+const ctx = kanvas.getContext("2d");
+var poengTekst = document.getElementById('poengCounter');
+var poeng = 0;
+
+//Definerer dimensjoner på canvas
+kanvas.height = window.innerHeight;
+kanvas.width = window.innerWidth;
+
+//Farger kanvas sort
+ctx.fillStyle = "black";
+ctx.fillRect(0,0,kanvas.width, kanvas.height);
+
+//Setter fager til hvit for resten av kodene 
+ctx.fillStyle = "white";
+
+class Hinder {
+	constructor(x, y, bredde, høyde) {
+		this.x = x,
+		this.y = y,
+		this.bredde = bredde,
+		this.høyde = høyde
+	}
+}
+
+function poengManager() {
+	//hvis fulgens y er mindre enn hinder 
+	if (bird.x == hinder.x) {
+		if ((bird.y > lukeY) && (bird.y > (lukeY +150))) {
+			alert("Krasj!");
+			poeng++;
+			poengTekst.innerText += poeng;
+		}else{ //if(bird.y >= lukeY && bird.y > lukeY - 150){
+			alert("Passerte!");
+			bird.crash();
+		}
+	}
+}
+var tykkelse = 100;
+var lukeY;
+function fåLukePlasser() {
+	lukeY = Math.round(Math.random()*kanvas.height);
+}
+function luke() {
+	ctx.fillStyle = farger.himmel;
+	ctx.fillRect((locax+4),lukeY, tykkelse, 150);
+}
+let locax = kanvas.width;	
+let hinder;
+let hinder2;
+function hinderManager() {
+	//console.log("Lager nytt hinder!");
+	hinder = new Hinder(locax--, 0, tykkelse, bakkeY);
+	ctx.fillStyle = farger.hinder;
+	ctx.fillRect(hinder.x, hinder.y, hinder.bredde, hinder.høyde);
+	//console.log(hinder.x, hinder.y, hinder.bredde, hinder.høyde);
+	locax-= 3;
+	luke();
+	if (locax+50 < 0) {
+		locax = kanvas.width;
+		fåLukePlasser();
+		luke();
+	}
+}
+
+var farger = {
+
+	hinder: "#c0392b",
+	himmel: "#34495e",
+	gress: "#27ae60",
+	fugl: "#f39c12"
+};
+
+var bakkeY = kanvas.height-100
+function update(argument) {
+	poengManager();
+	//resetter kanvas
+	ctx.fillStyle = farger.himmel;
+	ctx.fillRect(0,0,kanvas.width, kanvas.height);
+	ctx.fillStyle = farger.gress;
+	ctx.fillRect(0,bakkeY, kanvas.width, kanvas.height-600);
+	ctx.fillStyle = farger.fugl;
+		hinderManager();
+	//tegner Fuglen
+	ctx.fillStyle = farger.fugl;
+	ctx.arc(bird.x, bird.y, bird.radius,0, 3.14);
+	//console.log("Tegner rund fugl");
+	ctx.fillStyle = farger.fugl;
+	ctx.fillRect(bird.x, bird.y, bird.høyde, bird.bredde);
+	//sørger for at fuglen ikke kommer for langt ned
+	if(bird.y < kanvas.height-1) {
+	bird.y += fart;
+	}else {
+		console.log("Skal ikke falle lenger ned!");
+		bird.y -= 10;
+	}
+	if (fart < 3) {
+		fart++;
+	}else {
+		fart = 0;
+	}
+	console.log(bird.y, lukeY);
+}
+function fall(argument) {
+	// body...
+}
+var bird = {
+
+	bredde: 50,
+	høyde: 50,
+	x: 100,
+	y: 0,
+	radius: 50,
+	crash: () => {
+	//	alert("crash, abslutter!");
+		//clearInterval(timer);
+		//clearInterval(holder);
+	}
+};
+var fart = 3;
+var hoppY = 50;
+var input = {
+
+	opp: () => {
+		bird.y -= hoppY;
+		//console.log("Hopper!");
+
+		return "Hoppet!";
+	}
+}
+//INput håndteres under
+var input;
+document.addEventListener("keypress", function() {
+
+	//console.log(event.key);
+	knapp = event.key;
+
+	switch (knapp) {
+		case "w": input.opp();
+		break;
+		case " ": input.opp();
+		break;	
+		case "k": clearInterval(timer); clearInterval(holder);
+	}
+
+}, false);
+var holder = setInterval(hinderManager, 500);
+luke();
+fåLukePlasser();
+var timer = setInterval(update, 10);
+</script>
+	</body>
+</html>	
