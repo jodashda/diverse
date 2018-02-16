@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Reverserer 16.02.18</title>
+</head>
+<body>
+	<label>Si noe du vil ha reversert:<input type="text" id="inputen"></label><button id="knapp">Utfør</button>
+	<p id="resultat"></p>
+<script type="text/javascript">
+	"use strict";
+	let reverser = inp => {
+		let mellom = new Array();
+		for(let i = inp.length; i >= 0; i--) {
+			mellom.push(inp[i]);
+		}
+		return mellom.join("");
+	}
+	 document.getElementById('knapp').onclick = e => {
+	 	document.getElementById("resultat").innerText = reverser(document.getElementById("inputen").value);
+	 }
+</script>
+</body>
+</html>
