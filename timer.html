@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>timer 28.02.18</title>
+</head>
+<body>
+	<h1 id="tekstHtml">0</h1>
+<script type="text/javascript">
+	let sekunder = minutter = timer = 0;
+	let tidStr = () => {
+		sekunder++;
+		if(sekunder == 59) {
+			minutter++;
+			sekunder = 0;
+		}else if (minutter == 60) {
+			timer++;
+			minutter = 0;
+		}
+		return `${timer} timer, ${minutter} minutter og ${sekunder} sekunder`;
+	}
+	let tid = setInterval(() => {
+		document.getElementById('tekstHtml').innerText = tidStr();
+	}, 1000);
+</script>
+</body>
+</html>
