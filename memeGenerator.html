@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Meme generator</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <canvas></canvas>
+    <h1>Meme generator</h1>
+    <label>Topptekst: <input type="text"></label>
+    <br>
+    <label>Bunntekst: <input type="text"> </label>
+<script>
+class Tekst {
+    constructor(a, b) {
+        this.a = a,
+        this.b = b,
+        this.innhold = ""
+    }
+}
+const canvas = document.getElementsByTagName("canvas")[0];
+const ctx = canvas.getContext("2d");
+canvas. width = 400
+canvas.height = canvas.width
+
+canvas.style.border = "1px solid black"
+
+let topp;
+let bunn;
+
+let oppdater = () => {
+    topp.innhold = document.getElementsByTagName("input")[0].value;
+    bunn.innhold = document.getElementsByTagName("input")[1].value;
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    ctx.fillText(topp.innhold, topp.a, topp.b);
+    ctx.fillText(bunn.innhold, bunn.a, bunn.b);
+}
+
+ctx.font = "30px Arial"
+let margin = 30
+topp = new Tekst(margin, margin)
+bunn = new Tekst(margin, canvas.width-margin);
+document.onkeypress = oppdater;
+</script>
+</body>
