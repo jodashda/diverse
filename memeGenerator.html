@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>Meme generator</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <canvas></canvas>
+    <h1>Meme generator</h1>
+    <label>Topptekst: <input type="text"></label>
+    <br>
+    <label>Bunntekst: <input type="text"> </label>
+    <br>
+    <button onclick="addBilde()">Legg til bilde</button>
+    <img id="bildelt" style="visibility: hidden;">
+<script src="bilder.js" type="text/javascript"></script>
+<script>
+class Tekst {
+    constructor(a, b) {
+        this.a = a,
+        this.b = b,
+        this.innhold = ""
+    }
+}
+const canvas = document.getElementsByTagName("canvas")[0];
+const ctx = canvas.getContext("2d");
+canvas. width = 400
+canvas.height = canvas.width
+canvas.style.border = "1px solid black"
+
+let margin = 30
+const topp = new Tekst(margin, margin)
+const bunn = new Tekst(margin, canvas.width-margin);
+
+let forsteBilde = true
+
+let oppdater = () => {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    if (!forsteBilde) {
+        addBilde();
+    }
+    topp.innhold = document.getElementsByTagName("input")[0].value.toUpperCase();
+    bunn.innhold = document.getElementsByTagName("input")[1].value.toUpperCase();
+
+    ctx.font = "30px Comic Sans MS"
+    ctx.fillStyle = "red";
+    ctx.fillText(topp.innhold, topp.a, topp.b);
+    ctx.fillText(bunn.innhold, bunn.a, bunn.b);
+
+    ctx.strokeText(topp.innhold, topp.a, topp.b);
+    ctx.strokeText(bunn.innhold, bunn.a, bunn.b);
+}
+
+let addBilde = (elt) => {
+    console.log("adder bilde")
+    let bildelt = document.getElementById("bildelt");
+    bildelt.src = bilder[0]
+    ctx.drawImage(bildelt, 0, 0);
+    if (forsteBilde) {
+        forsteBilde = false;
+        //oppdater();
+    }
+}
+document.onkeyup = oppdater;
+</script>
+</body>
